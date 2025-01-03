@@ -2,12 +2,6 @@ const std = @import("std");
 const testing = std.testing;
 const mem = std.mem;
 
-// The spec defines that a valid value "contains fewer than 2^64 bytes",
-// so the max value that we can encode with RLP is (2^64)-1, which takes
-// 8 bytes in binary.
-// TODO: unused, remove
-// const max_valid_byte_length = 8;
-
 pub const ReadErrors = error{
     InputTooShort,
 };
