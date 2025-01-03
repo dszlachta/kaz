@@ -29,7 +29,7 @@ pub fn DecodeResult(comptime T: type) type {
 /// parse 1 as true, anything else as false. Older implementations used to interpret 0x80
 /// as false.
 pub fn decodeBool(encoded: []const u8) !DecodeResult(bool) {
-    const read_result = try read.read_bytes(encoded);
+    const read_result = try read.readBytes(encoded);
     if (read_result.type != read.Type.SingleByte) {
         return DecodeErrors.ExpectedSingleByte;
     }
@@ -57,7 +57,7 @@ pub fn decodeUint(comptime T: type, encoded: []const u8) !DecodeResult(T) {
         }
     }
 
-    const read_result = try read.read_bytes(encoded);
+    const read_result = try read.readBytes(encoded);
 
     if (read_result.read == 1 and read_result.value[0] == 0) {
         return DecodeErrors.NonCanonicalUintEncoding;
@@ -82,7 +82,7 @@ test decodeUint {
 }
 
 pub fn decodeBytes(encoded: []const u8) !DecodeResult([]const u8) {
-    const read_result = try read.read_bytes(encoded);
+    const read_result = try read.readBytes(encoded);
 
     if (read_result.read == 1 and read_result.value[0] == @intFromEnum(SpecialPrefixes.emptyArray)) {
         return DecodeResult([]const u8){ .value = "", .read = 1 };
@@ -103,7 +103,7 @@ test decodeBytes {
 /// Returns RLP-encoded items as value, which can then be passed sequentially
 /// to other functions from this file to decode the items.
 pub fn decodeList(encoded: []const u8) !DecodeResult([]const u8) {
-    const read_result = try read.read_bytes(encoded);
+    const read_result = try read.readBytes(encoded);
 
     if (read_result.type != read.Type.List) {
         return DecodeErrors.ExpectedList;

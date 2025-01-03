@@ -66,7 +66,7 @@ test encode {
 }
 
 pub fn encodeBool(value: bool, dest: *std.ArrayList(u8)) !void {
-    return write.write_bytes(if (value) "\x01" else "\x00", dest, false);
+    return write.writeBytes(if (value) "\x01" else "\x00", dest, false);
 }
 
 test encodeBool {
@@ -86,7 +86,7 @@ pub fn encodeUint(comptime T: type, value: T, dest: *std.ArrayList(u8)) !void {
     defer canonical.deinit();
 
     _ = try write.write_canonical_uint(T, value, &canonical);
-    return write.write_bytes(canonical.items, dest, false);
+    return write.writeBytes(canonical.items, dest, false);
 }
 
 test encodeUint {
@@ -98,7 +98,7 @@ test encodeUint {
 }
 
 pub fn encodeBytes(value: []const u8, dest: *std.ArrayList(u8)) !void {
-    return write.write_bytes(value, dest, false);
+    return write.writeBytes(value, dest, false);
 }
 
 test encodeBytes {
@@ -113,7 +113,7 @@ test encodeBytes {
 
 /// Encodes value (which should be RLP-serialized list items) as a list.
 pub fn encodeList(value: []const u8, dest: *std.ArrayList(u8)) !void {
-    return write.write_bytes(value, dest, true);
+    return write.writeBytes(value, dest, true);
 }
 
 test encodeList {
