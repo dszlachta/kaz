@@ -26,7 +26,7 @@ pub fn DecodeResult(comptime T: type) type {
 
 /// Decodes value as a boolean. Ethereum Yellow Paper doesn't specify boolean encoding
 /// for RLP, so we follow go-ethereum: 0 means false, 1 means true. Nethermind seems to
-/// parse 1 as true, anything other as false. Older implementations used to interpret 0x80
+/// parse 1 as true, anything else as false. Older implementations used to interpret 0x80
 /// as false.
 pub fn decodeBool(encoded: []const u8) !DecodeResult(bool) {
     const read_result = try read.read_bytes(encoded);
