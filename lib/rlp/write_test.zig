@@ -64,3 +64,15 @@ test "write empty list" {
     try rlp.writeBytes(&value, &al, true);
     try testing.expectEqualSlices(u8, &[_]u8{192}, al.items);
 }
+
+test "write canonical uint" {
+    var al = std.ArrayList(u8).init(testing.allocator);
+    defer al.deinit();
+
+    try rlp.writeCanonicalUint(u64, 0, &al);
+    try testing.expectEqualSlices(u8, &[_]u8{128}, al.items);
+
+    al.shrinkAndFree(0);
+    try rlp.writeCanonicalUint(u64, 16, &al);
+    try testing.expectEqualSlices(u8, &[_]u8{16}, al.items);
+}

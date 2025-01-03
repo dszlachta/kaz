@@ -2,6 +2,7 @@ const std = @import("std");
 const mem = std.mem;
 const testing = std.testing;
 const Type = @import("read.zig").Type;
+const SpecialPrefixes = @import("decode.zig").SpecialPrefixes;
 
 /// Writes RLP-encoded data with the correct prefix and, if needed, size info.
 pub fn writeBytes(encoded: []const u8, dest: *std.ArrayList(u8), as_list: bool) !void {
@@ -74,6 +75,13 @@ pub inline fn writeCanonicalUint(comptime T: type, value: T, dest: *std.ArrayLis
             .comptime_int => if (value < 0) @compileError(typeErr),
             else => @compileError(typeErr),
         }
+    }
+
+    if (value == 0) {
+        // Since no leading 0 is allowed, the spec forces us to use 128 (empty array)
+        // as a value here
+        try dest.append(@intFromEnum(SpecialPrefixes.emptyArray));
+        return 1;
     }
 
     var buf: [@sizeOf(usize)]u8 = undefined;
