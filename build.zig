@@ -41,12 +41,12 @@ pub fn build(b: *std.Build) void {
     // Libkaz libraries
 
     // RLP
-    const rlp = b.addModule("libkaz-rlp", .{
+    const rlp = b.addModule("libkaz_rlp", .{
         .root_source_file = b.path("lib/rlp/root.zig"),
         .target = target,
         .optimize = optimize,
     });
-    addLibrary(libkaz, lib_unit_tests, "libkaz-rlp", rlp);
+    addLibrary(libkaz, lib_unit_tests, "libkaz_rlp", rlp);
 
     // Docs
 
