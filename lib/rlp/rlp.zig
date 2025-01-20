@@ -4,12 +4,9 @@ pub const write = @import("write.zig");
 pub const encode = @import("encode.zig");
 
 test {
-    _ = @import("read.zig");
+    @import("std").testing.refAllDeclsRecursive(@This());
     _ = @import("read_test.zig");
-    _ = @import("decode.zig");
     _ = @import("decode_test.zig");
-    _ = @import("write.zig");
     _ = @import("write_test.zig");
-    _ = @import("encode.zig");
     _ = @import("encode_test.zig");
 }

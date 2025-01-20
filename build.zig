@@ -15,8 +15,8 @@ pub fn build(b: *std.Build) void {
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
 
-    // Wrapper module
-    const libkaz = b.addModule("libkaz", .{
+    // Lib module
+    _ = b.addModule("libkaz", .{
         .root_source_file = b.path("lib/root.zig"),
         .target = target,
         .optimize = optimize,
@@ -38,16 +38,6 @@ pub fn build(b: *std.Build) void {
     const test_step = b.step("test", "Run unit tests");
     test_step.dependOn(&run_lib_unit_tests.step);
 
-    // Libkaz libraries
-
-    // RLP
-    const rlp = b.addModule("libkaz_rlp", .{
-        .root_source_file = b.path("lib/rlp/root.zig"),
-        .target = target,
-        .optimize = optimize,
-    });
-    addLibrary(libkaz, lib_unit_tests, "libkaz_rlp", rlp);
-
     // Docs
 
     const install_docs = b.addInstallDirectory(.{
@@ -58,9 +48,4 @@ pub fn build(b: *std.Build) void {
 
     const docs_step = b.step("docs", "Generate documentation");
     docs_step.dependOn(&install_docs.step);
-}
-
-fn addLibrary(libkaz: *std.Build.Module, tests: *std.Build.Step.Compile, name: []const u8, library: *std.Build.Module) void {
-    libkaz.addImport(name, library);
-    tests.root_module.addImport(name, library);
 }

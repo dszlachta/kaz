@@ -1,7 +1,5 @@
-pub const rlp = @import("libkaz_rlp");
+pub const rlp = @import("rlp/rlp.zig");
 
 test {
-    _ = @import("libkaz_rlp");
-
     @import("std").testing.refAllDeclsRecursive(@This());
 }

@@ -84,8 +84,8 @@ pub inline fn writeCanonicalUint(comptime T: type, value: T, dest: *std.ArrayLis
         return 1;
     }
 
-    var buf: [@sizeOf(usize)]u8 = undefined;
-    mem.writeInt(usize, &buf, value, .big);
+    var buf: [@sizeOf(T)]u8 = undefined;
+    mem.writeInt(T, &buf, value, .big);
 
     // Trim leading zeroes
     const padding = @clz(value) / 8;
