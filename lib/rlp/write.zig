@@ -101,7 +101,7 @@ test writeCanonicalUint {
 
     const value: u64 = 1;
     const written = try writeCanonicalUint(u64, value, &result);
-    try testing.expectEqualSlices(u8, "\x01", result.items);
+    try testing.expectEqualSlices(u8, &[1]u8{1}, result.items);
     try testing.expect(written == 1);
 }
 

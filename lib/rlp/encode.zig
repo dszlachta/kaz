@@ -22,8 +22,8 @@ pub fn encode(comptime T: type, value: T, dest: *std.ArrayList(u8)) !void {
         },
         .pointer => |info| {
             switch (info.size) {
-                .One => return encode(info.child, value.*, dest),
-                .Slice => {
+                .one => return encode(info.child, value.*, dest),
+                .slice => {
                     if (info.child != u8) {
                         @compileError("encode only supports slices of u8");
                     }
